@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Application Management</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: #f5f4ff;
+    color: #29264d;
+    padding: 35px;
+}
+
+.container {
+    max-width: 1100px;
+    margin: auto;
+}
+
+.header {
+    background: linear-gradient(120deg, #667eea, #764ba2);
+    color: white;
+    padding: 30px;
+    border-radius: 18px;
+    margin-bottom: 25px;
+}
+
+.header h1 {
+    margin-bottom: 10px;
+}
+
+.header p {
+    opacity: 0.9;
+}
+
+.back {
+    display: inline-block;
+    margin-bottom: 20px;
+    color: #5144b5;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.application {
+    background: white;
+    padding: 24px;
+    border-radius: 15px;
+    margin-bottom: 18px;
+    box-shadow: 0 5px 20px rgba(50,40,100,0.06);
+}
+
+.application h3 {
+    color: #5144b5;
+    margin-bottom: 12px;
+}
+
+.application p {
+    margin: 8px 0;
+    color: #666;
+}
+
+.status {
+    font-weight: bold;
+    color: #5144b5;
+}
+
+.actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 18px;
+}
+
+button {
+    border: none;
+    padding: 11px 20px;
+    border-radius: 8px;
+    color: white;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.accept {
+    background: #249b68;
+}
+
+.reject {
+    background: #dc4b59;
+}
+
+.pending {
+    background: #667eea;
+}
+
+.empty {
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    text-align: center;
+    color: #888;
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+
+    <a href="/employer-dashboard/" class="back">
+        ← Back to Dashboard
+    </a>
+
+    <div class="header">
+        <h1>Application Management 📋</h1>
+        <p>Review applications and manage candidate selection.</p>
+    </div>
+
+    {% for application in applications %}
+
+    <div class="application">
+
+        <h3>{{ application.user.username }}</h3>
+
+        <p><strong>Job:</strong> {{ application.job.title }}</p>
+
+        <p><strong>Company:</strong> {{ application.job.company }}</p>
+
+        <p><strong>Applied Date:</strong> {{ application.applied_at|date:"d M Y" }}</p>
+
+        <p>
+            <strong>Current Status:</strong>
+            <span class="status">{{ application.status }}</span>
+        </p>
+
+        <div class="actions">
+
+            <form method="POST"
+                  action="{% url 'update_application_status' application.id %}">
+                {% csrf_token %}
+                <input type="hidden" name="status" value="Accepted">
+                <button type="submit" class="accept">✓ Accept</button>
+            </form>
+
+            <form method="POST"
+                  action="{% url 'update_application_status' application.id %}">
+                {% csrf_token %}
+                <input type="hidden" name="status" value="Rejected">
+                <button type="submit" class="reject">✕ Reject</button>
+            </form>
+
+            <form method="POST"
+                  action="{% url 'update_application_status' application.id %}">
+                {% csrf_token %}
+                <input type="hidden" name="status" value="Pending">
+                <button type="submit" class="pending">Keep Pending</button>
+            </form>
+
+        </div>
+
+    </div>
+
+    {% empty %}
+
+    <div class="empty">
+        <h3>No applications yet!</h3>
+        <p>Applications for your job vacancies will appear here.</p>
+    </div>
+
+    {% endfor %}
+
+</div>
+</body>
+</html>

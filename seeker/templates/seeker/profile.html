@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile - JobPortal</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 30px 15px;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #4568dc, #b06ab3);
+        }
+
+        .container {
+            max-width: 650px;
+            margin: auto;
+            background: white;
+            padding: 35px;
+            border-radius: 18px;
+            box-shadow: 0 12px 35px rgba(0,0,0,0.2);
+        }
+
+        h1 {
+            text-align: center;
+            color: #4236a5;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #777;
+            margin-bottom: 30px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 7px;
+            color: #333;
+            font-weight: bold;
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 18px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 15px;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 90px;
+        }
+
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: #6755d8;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 8px;
+            background: linear-gradient(135deg, #4568dc, #8e44ad);
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .back {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            color: #6755d8;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>My Profile</h1>
+
+        <p class="subtitle">
+            Build your professional profile and find better opportunities.
+        </p>
+
+{% if messages %}
+    {% for message in messages %}
+        <p style="color: green; text-align: center;">
+            {{ message }}
+        </p>
+    {% endfor %}
+{% endif %}
+
+<form method="POST">
+            {% csrf_token %}
+
+            <label>Full Name</label>
+            <input type="text" name="full_name"
+                   value="{{ profile.full_name|default:'' }}"
+                   placeholder="Enter your full name" required>
+
+            <label>Email</label>
+            <input type="email" name="email"
+                   value="{{ request.user.email }}"
+                   placeholder="Enter your email">
+
+            <label>Phone Number</label>
+            <input type="tel" name="phone"
+                   value="{{ profile.phone|default:'' }}"
+                   placeholder="Enter your phone number">
+
+            <label>Address</label>
+            <textarea name="address"
+                      placeholder="Enter your address">{{ profile.address|default:'' }}</textarea>
+
+            <label>Education</label>
+            <input type="text" name="education"
+                   value="{{ profile.education|default:'' }}"
+                   placeholder="Your qualification">
+
+            <label>Skills</label>
+            <textarea name="skills"
+                      placeholder="Example: Python, HTML, CSS">{{ profile.skills|default:'' }}</textarea>
+
+            <label>Work Experience</label>
+            <textarea name="experience"
+                      placeholder="Describe your work experience">{{ profile.experience|default:'' }}</textarea>
+
+            <button type="submit">Save Profile</button>
+
+        </form>
+
+        <a href="/dashboard/" class="back">← Back to Dashboard</a>
+
+    </div>
+
+</body>
+</html>

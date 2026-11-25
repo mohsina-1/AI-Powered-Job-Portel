@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JobPortal | Dashboard</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: #f5f4ff;
+    color: #29264d;
+}
+
+.layout {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* SIDEBAR */
+
+.sidebar {
+    width: 255px;
+    background: linear-gradient(180deg, #667eea, #764ba2);
+    color: white;
+    padding: 30px 18px;
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    height: 100vh;
+    left: 0;
+    top: 0;
+    z-index: 10;
+}
+
+.brand {
+    font-size: 27px;
+    font-weight: 800;
+    padding: 0 15px;
+    margin-bottom: 45px;
+}
+
+.brand span {
+    color: #ffe08a;
+}
+
+.menu-title {
+    font-size: 11px;
+    letter-spacing: 2px;
+    opacity: 0.7;
+    padding: 0 15px;
+    margin-bottom: 15px;
+}
+
+.sidebar a {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    color: white;
+    text-decoration: none;
+    padding: 14px 15px;
+    border-radius: 12px;
+    margin-bottom: 7px;
+    font-size: 14px;
+    transition: 0.3s;
+}
+
+.sidebar a:hover {
+    background: rgba(255,255,255,0.2);
+    transform: translateX(4px);
+}
+
+.sidebar .active {
+    background: rgba(255,255,255,0.23);
+    box-shadow: inset 3px 0 #ffe08a;
+}
+
+.menu-icon {
+    font-size: 19px;
+    width: 23px;
+    text-align: center;
+}
+
+.sidebar-bottom {
+    margin-top: auto;
+    border-top: 1px solid rgba(255,255,255,0.2);
+    padding-top: 20px;
+}
+
+/* MAIN CONTENT */
+
+.main {
+    margin-left: 255px;
+    width: calc(100% - 255px);
+    padding: 35px 4%;
+}
+
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    gap: 15px;
+}
+
+.topbar h2 {
+    font-size: 25px;
+    color: #4236a5;
+}
+
+.topbar p {
+    font-size: 13px;
+    color: #888;
+    margin-top: 5px;
+}
+
+.user-badge {
+    background: white;
+    padding: 11px 17px;
+    border-radius: 30px;
+    box-shadow: 0 4px 15px rgba(50,40,100,0.07);
+    font-size: 13px;
+    font-weight: 600;
+}
+
+/* WELCOME BANNER */
+
+.welcome {
+    background: linear-gradient(120deg, #667eea, #764ba2);
+    color: white;
+    padding: 38px;
+    border-radius: 22px;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 32px;
+    box-shadow: 0 12px 30px rgba(102,126,234,0.25);
+}
+
+.welcome::after {
+    content: "✦";
+    position: absolute;
+    font-size: 190px;
+    right: 45px;
+    top: -50px;
+    opacity: 0.13;
+}
+
+.welcome small {
+    letter-spacing: 2px;
+    font-size: 11px;
+}
+
+.welcome h1 {
+    font-size: 31px;
+    margin: 14px 0;
+}
+
+.welcome p {
+    font-size: 14px;
+    line-height: 1.8;
+    opacity: 0.92;
+    max-width: 520px;
+}
+
+/* OVERVIEW */
+
+.section-heading {
+    margin: 30px 0 18px;
+}
+
+.section-heading h2 {
+    color: #4236a5;
+    font-size: 21px;
+}
+
+.section-heading p {
+    color: #888;
+    font-size: 13px;
+    margin-top: 5px;
+}
+
+.overview {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+}
+
+.overview-card {
+    background: white;
+    padding: 20px;
+    border-radius: 16px;
+    box-shadow: 0 5px 20px rgba(50,40,100,0.05);
+    border: 1px solid #eeeaff;
+}
+
+.overview-icon {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.overview-card h3 {
+    font-size: 15px;
+    color: #5144b5;
+    margin-bottom: 6px;
+}
+
+.overview-card p {
+    font-size: 12px;
+    color: #888;
+    line-height: 1.6;
+}
+
+/* FEATURE CARDS */
+
+.cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.card {
+    background: white;
+    border: 1px solid #ece9ff;
+    padding: 24px;
+    border-radius: 18px;
+    min-height: 225px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 5px 20px rgba(50,40,100,0.05);
+    transition: 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-7px);
+    box-shadow: 0 14px 30px rgba(102,126,234,0.16);
+    border-color: #b9b1f5;
+}
+
+.card-icon {
+    width: 50px;
+    height: 50px;
+    background: #f0edff;
+    border-radius: 14px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 23px;
+    margin-bottom: 17px;
+}
+
+.card h3 {
+    color: #5144b5;
+    font-size: 16px;
+    margin-bottom: 9px;
+}
+
+.card p {
+    color: #858585;
+    font-size: 13px;
+    line-height: 1.7;
+    margin-bottom: 20px;
+    flex-grow: 1;
+}
+
+.card a {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    text-decoration: none;
+    text-align: center;
+    padding: 11px;
+    border-radius: 9px;
+    font-size: 13px;
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+.card a:hover {
+    opacity: 0.88;
+    box-shadow: 0 5px 15px rgba(102,126,234,0.3);
+}
+
+.ai-tag {
+    display: inline-block;
+    background: #eeeaff;
+    color: #764ba2;
+    padding: 4px 9px;
+    font-size: 10px;
+    border-radius: 20px;
+    margin-left: 5px;
+    vertical-align: middle;
+}
+
+.footer {
+    text-align: center;
+    color: #999;
+    font-size: 12px;
+    padding: 30px 0 10px;
+}
+
+/* RESPONSIVE DESIGN */
+
+@media (max-width: 1000px) {
+    .cards {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 700px) {
+    .sidebar {
+        width: 75px;
+        padding: 25px 10px;
+    }
+
+    .brand {
+        font-size: 18px;
+        padding: 0;
+        text-align: center;
+    }
+
+    .brand span {
+        display: none;
+    }
+
+    .menu-title,
+    .sidebar a span:not(.menu-icon) {
+        display: none;
+    }
+
+    .sidebar a {
+        justify-content: center;
+        padding: 14px 5px;
+    }
+
+    .menu-icon {
+        font-size: 21px;
+    }
+
+    .main {
+        margin-left: 75px;
+        width: calc(100% - 75px);
+        padding: 22px 15px;
+    }
+
+    .overview {
+        grid-template-columns: 1fr;
+    }
+
+    .cards {
+        grid-template-columns: 1fr;
+    }
+
+    .welcome {
+        padding: 25px 20px;
+    }
+
+    .welcome h1 {
+        font-size: 24px;
+    }
+
+    .welcome::after {
+        right: 5px;
+        font-size: 100px;
+    }
+
+    .topbar h2 {
+        font-size: 19px;
+    }
+}
+.sidebar a span:last-child {
+    white-space: nowrap;
+}
+
+.sidebar a .menu-icon {
+    flex-shrink: 0;
+}
+</style>
+</head>
+
+<body>
+
+<div class="layout">
+
+    <!-- LEFT SIDEBAR -->
+
+    <aside class="sidebar">
+
+        <div class="brand">Job<span>Portal</span></div>
+
+        <div class="menu-title">MAIN MENU</div>
+
+        <a href="/dashboard/" class="active">
+            <span class="menu-icon">▦</span>
+            <span>Dashboard</span>
+        </a>
+
+        <a href="/profile/">
+            <span class="menu-icon">👤</span>
+            <span>My Profile</span>
+        </a>
+
+        <a href="/jobs/">
+            <span class="menu-icon">🔍</span>
+            <span>Search Jobs</span>
+        </a>
+
+        <a href="/applications/">
+            <span class="menu-icon">📋</span>
+            <span>Applied Jobs</span>
+        </a>
+
+        <a href="/upload-resume/">
+            <span class="menu-icon">📄</span>
+            <span>Upload Resume</span>
+        </a>
+
+        <div class="menu-title" style="margin-top:25px;">AI FEATURES</div>
+
+        <a href="{% url 'ai_resume_analyzer' %}">
+            <span class="menu-icon">🤖</span>
+            <span>Resume Analyzer</span>
+        </a>
+
+        <a href="{% url 'ai_job_recommendations' %}">
+            <span class="menu-icon">✨</span>
+            <span>Job Recommendations</span>
+        </a>
+
+        <a href="{% url 'skill_gap_analysis' %}" 
+            <span class="menu-icon">🎯</span>
+            <span>Skill Gap Analysis</span>
+        </a>
+
+        <div class="sidebar-bottom">
+            <a href="/logout/">
+                <span class="menu-icon">↪</span>
+                <span>Logout</span>
+            </a>
+        </div>
+
+    </aside>
+
+    <!-- MAIN DASHBOARD -->
+
+    <main class="main">
+
+        <div class="topbar">
+            <div>
+                <h2>Dashboard Overview</h2>
+                <p>Welcome back! Here's your career workspace.</p>
+            </div>
+
+            <div class="user-badge">
+                👤 {{ request.user.first_name }}
+            </div>
+        </div>
+
+        <section class="welcome">
+            <small>YOUR CAREER JOURNEY STARTS HERE</small>
+            <h1>Hello, {{ request.user.first_name }}! 👋</h1>
+            <p>
+                Discover new opportunities, showcase your talent
+                and take the next step towards your dream career.
+                Your future begins with one great opportunity.
+            </p>
+        </section>
+
+        <div class="section-heading">
+            <h2>Your Workspace</h2>
+            <p>Quick access to your important job-search activities.</p>
+        </div>
+
+        <section class="overview">
+
+            <div class="overview-card">
+                <div class="overview-icon">👤</div>
+                <h3>Professional Profile</h3>
+                <p>Manage your personal and professional information.</p>
+            </div>
+
+            <div class="overview-card">
+                <div class="overview-icon">📄</div>
+                <h3>Resume Management</h3>
+                <p>Keep your resume updated and ready for opportunities.</p>
+            </div>
+
+            <div class="overview-card">
+                <div class="overview-icon">🚀</div>
+                <h3>Career Opportunities</h3>
+                <p>Explore vacancies and move closer to your career goals.</p>
+            </div>
+
+        </section>
+
+        <div class="section-heading">
+            <h2>Explore Features ✨</h2>
+            <p>Everything you need to find and prepare for your next job.</p>
+        </div>
+
+        <section class="cards">
+
+            <div class="card">
+                <div class="card-icon">👤</div>
+                <h3>My Profile</h3>
+                <p>Create and update your professional profile.</p>
+                <a href="/profile/">View Profile →</a>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">📄</div>
+                <h3>Upload Resume</h3>
+                <p>Upload your resume in PDF format.</p>
+                <a href="/upload-resume/">Upload Resume →</a>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">🔍</div>
+                <h3>Search Jobs</h3>
+                <p>Find suitable job vacancies based on your interests.</p>
+                <a href="/jobs/">Find Jobs →</a>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">📋</div>
+                <h3>Applied Jobs</h3>
+                <p>Track your job applications and their status.</p>
+                <a href="/applications/">View Applications →</a>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">🤖</div>
+                <h3>AI Resume Analyzer <span class="ai-tag">AI</span></h3>
+                <p>Analyze your resume and automatically detect your skills.</p>
+                <a href="{% url 'ai_resume_analyzer' %}">Analyze Resume →</a>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">✨</div>
+                <h3>AI Job Recommendations <span class="ai-tag">AI</span></h3>
+                <p>Discover suitable job opportunities based on your skills.</p>
+                <a href="{% url 'ai_job_recommendations' %}">View Recommendations →</a>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">🎯</div>
+                <h3>Skill Gap Analysis <span class="ai-tag">AI</span></h3>
+                <p>Discover the skills you need to improve for your dream job.</p>
+                <a href="#">Check Skills →</a>
+            </div>
+
+        </section>
+
+        <div class="footer">
+            © 2026 JobPortal | Empowering Your Career Journey 💜
+        </div>
+
+    </main>
+
+</div>
+
+</body>
+</html>

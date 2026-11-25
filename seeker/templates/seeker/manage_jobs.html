@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Manage Jobs</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #2196f3, #673ab7);
+            padding: 30px;
+        }
+        .container {
+            background: white;
+            max-width: 800px;
+            margin: auto;
+            padding: 30px;
+            border-radius: 15px;
+        }
+        .job {
+            background: #f1f3f8;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+        }
+        button {
+            background: #e53935;
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        a {
+            color: #3949ab;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Manage Jobs</h1>
+
+    {% for job in jobs %}
+    <div class="job">
+        <h2>{{ job.title }}</h2>
+        <p>Company: {{ job.company }}</p>
+        <p>Location: {{ job.location }}</p>
+        <p>Skills: {{ job.skills }}</p>
+
+        <form method="POST" action="{% url 'delete_job' job.id %}">
+            {% csrf_token %}
+            <button type="submit">Delete Job</button>
+        </form>
+        <a href="{% url 'edit_job' job.id %}">
+    <button type="button">Edit Job</button>
+</a>
+
+    </div>
+    {% empty %}
+    <p>No jobs posted yet.</p>
+    {% endfor %}
+
+    <a href="/employer-dashboard/">Back to Dashboard</a>
+</div>
+</body>
+</html>

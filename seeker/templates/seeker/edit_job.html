@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Job</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #2196f3, #673ab7);
+            padding: 30px;
+        }
+
+        .container {
+            background: white;
+            max-width: 600px;
+            margin: auto;
+            padding: 30px;
+            border-radius: 15px;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            box-sizing: border-box;
+        }
+
+        button {
+            background: #4169e1;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Edit Job</h1>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <label>Job Title</label>
+        <input type="text" name="title" value="{{ job.title }}" required>
+
+        <label>Company</label>
+        <input type="text" name="company" value="{{ job.company }}" required>
+
+        <label>Location</label>
+        <input type="text" name="location" value="{{ job.location }}" required>
+
+        <label>Skills</label>
+        <input type="text" name="skills" value="{{ job.skills }}" required>
+
+        <label>Description</label>
+        <textarea name="description" rows="5" required>{{ job.description }}</textarea>
+
+        <button type="submit">Update Job</button>
+    </form>
+
+    <p><a href="/manage-jobs/">Back to Manage Jobs</a></p>
+</div>
+
+</body>
+</html>

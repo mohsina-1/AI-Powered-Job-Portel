@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Job Applicants | JobPortal</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: #f5f4ff;
+    padding: 35px 20px;
+    color: #29264d;
+}
+
+.container {
+    max-width: 1000px;
+    margin: auto;
+}
+
+.header {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    padding: 30px;
+    border-radius: 18px;
+    margin-bottom: 25px;
+}
+
+.header h1 {
+    margin-bottom: 10px;
+}
+
+.header p {
+    opacity: 0.9;
+}
+
+.applicant {
+    background: white;
+    padding: 25px;
+    margin-bottom: 18px;
+    border-radius: 15px;
+    box-shadow: 0 5px 20px rgba(50,40,100,0.06);
+    border: 1px solid #ece9ff;
+}
+
+.applicant h2 {
+    color: #5144b5;
+    margin-bottom: 15px;
+}
+
+.details p {
+    margin: 10px 0;
+    color: #666;
+}
+
+.status {
+    color: #5144b5;
+    font-weight: bold;
+}
+
+.buttons {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
+
+.btn {
+    display: inline-block;
+    padding: 11px 18px;
+    border-radius: 8px;
+    text-decoration: none;
+    color: white;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.view {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+}
+
+.download {
+    background: #249b68;
+}
+
+.back {
+    display: inline-block;
+    margin-top: 15px;
+    color: #5144b5;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.empty {
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    text-align: center;
+    color: #888;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="header">
+        <h1>Job Applicants 👥</h1>
+        <p>View candidates who applied for your job vacancies.</p>
+    </div>
+    <form method="GET" style="
+    background: white;
+    padding: 20px;
+    border-radius: 15px;
+    margin-bottom: 25px;
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+">
+
+    <input
+        type="text"
+        name="skills"
+        placeholder="Search by skills (Python, Java...)"
+        value="{{ search_skill }}"
+        style="flex:1; min-width:200px; padding:12px; border:1px solid #ddd; border-radius:8px;"
+    >
+
+    <input
+        type="text"
+        name="job_title"
+        placeholder="Search by job title"
+        value="{{ search_job }}"
+        style="flex:1; min-width:200px; padding:12px; border:1px solid #ddd; border-radius:8px;"
+    >
+
+    <button type="submit" style="
+        background:linear-gradient(135deg,#667eea,#764ba2);
+        color:white;
+        border:none;
+        padding:12px 22px;
+        border-radius:8px;
+        cursor:pointer;
+    ">
+        Search 🔍
+    </button>
+
+    <a href="/employer-applicants/" style="
+        padding:12px;
+        color:#5144b5;
+        text-decoration:none;
+    ">
+        Clear
+    </a>
+
+</form>
+
+    {% for application in applications %}
+
+    <div class="applicant">
+
+        <h2>{{ application.user.first_name|default:application.user.username }}</h2>
+
+        <div class="details">
+
+            <p><strong>Email:</strong>
+                {{ application.user.email }}
+            </p>
+
+            <p><strong>Username:</strong>
+                {{ application.user.username }}
+            </p>
+
+            <p><strong>Job Title:</strong>
+                {{ application.job.title }}
+            </p>
+
+            <p><strong>Company:</strong>
+                {{ application.job.company }}
+            </p>
+
+            <p><strong>Applied Date:</strong>
+                {{ application.applied_at|date:"d M Y" }}
+            </p>
+
+            <p><strong>Skills:</strong>
+                {{ application.user.jobseekerprofile.skills|default:"Not provided" }}
+            </p>
+
+            <p class="status">
+                Application Status: {{ application.status }}
+            </p>
+
+        </div>
+
+        <div class="buttons">
+
+            {% if application.user.jobseekerprofile.resume %}
+
+                <a class="btn view"
+                   href="{{ application.user.jobseekerprofile.resume.url }}"
+                   target="_blank">
+                   📄 View Resume
+                </a>
+
+                <a class="btn download"
+                   href="{{ application.user.jobseekerprofile.resume.url }}"
+                   download>
+                   ⬇ Download Resume
+                </a>
+
+            {% else %}
+
+                <p>Resume not uploaded by this candidate.</p>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+    {% empty %}
+
+    <div class="empty">
+        <h3>No Applicants Yet!</h3>
+        <p>Applications will appear here when candidates apply for your jobs.</p>
+    </div>
+
+    {% endfor %}
+
+    <a href="/employer-dashboard/" class="back">
+        ← Back to Dashboard
+    </a>
+
+</div>
+
+</body>
+</html>

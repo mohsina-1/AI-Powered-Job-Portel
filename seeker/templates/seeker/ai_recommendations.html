@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AI Job Recommendations</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 30px 15px;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #0066cc, #8e72d8);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: auto;
+        }
+
+        h1 {
+            color: white;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: white;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .job-card {
+            background: white;
+            padding: 22px;
+            margin-bottom: 18px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+        }
+
+        .job-card h2 {
+            color: #315ca8;
+            margin-top: 0;
+        }
+
+        .job-card p {
+            color: #555;
+            line-height: 1.6;
+        }
+
+        .skills {
+            color: #315ca8;
+            font-weight: bold;
+        }
+
+        .empty {
+            background: white;
+            padding: 30px;
+            text-align: center;
+            border-radius: 15px;
+            color: #555;
+        }
+
+        .back {
+            display: inline-block;
+            margin-top: 15px;
+            color: white;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>🤖 AI Job Recommendations</h1>
+
+    <p class="subtitle">
+        Discover jobs that match your skills
+    </p>
+
+    {% if recommended_jobs %}
+
+        {% for job in recommended_jobs %}
+
+        <div class="job-card">
+
+            <h2>{{ job.title }}</h2>
+
+            <p><strong>Company:</strong> {{ job.company }}</p>
+
+            <p><strong>Location:</strong> {{ job.location }}</p>
+
+            <p><strong>Required Skills:</strong></p>
+
+            <p class="skills">{{ job.skills }}</p>
+
+            <p>{{ job.description }}</p>
+
+            <a href="{% url 'job_search' %}">
+                View Jobs
+            </a>
+
+        </div>
+
+        {% endfor %}
+
+    {% else %}
+
+        <div class="empty">
+            <h2>No Matching Jobs Found</h2>
+
+            <p>
+                Update your profile skills or check again
+                when new jobs are available.
+            </p>
+        </div>
+
+    {% endif %}
+
+    <center>
+        <a class="back" href="{% url 'dashboard' %}">
+            ← Back to Dashboard
+        </a>
+    </center>
+
+</div>
+
+</body>
+</html>

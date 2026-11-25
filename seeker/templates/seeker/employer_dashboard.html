@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JobPortal | Employer Dashboard</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: #f5f4ff;
+    color: #29264d;
+}
+
+.layout {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* SIDEBAR */
+
+.sidebar {
+    width: 255px;
+    background: linear-gradient(180deg, #667eea, #764ba2);
+    color: white;
+    padding: 30px 18px;
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    height: 100vh;
+    left: 0;
+    top: 0;
+    z-index: 10;
+}
+
+.brand {
+    font-size: 27px;
+    font-weight: 800;
+    padding: 0 15px;
+    margin-bottom: 45px;
+}
+
+.brand span {
+    color: #ffe08a;
+}
+
+.menu-title {
+    font-size: 11px;
+    letter-spacing: 2px;
+    opacity: 0.7;
+    padding: 0 15px;
+    margin-bottom: 15px;
+}
+
+.sidebar a {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    color: white;
+    text-decoration: none;
+    padding: 14px 15px;
+    border-radius: 12px;
+    margin-bottom: 7px;
+    font-size: 14px;
+    transition: 0.3s;
+}
+
+.sidebar a:hover {
+    background: rgba(255,255,255,0.2);
+    transform: translateX(4px);
+}
+
+.sidebar .active {
+    background: rgba(255,255,255,0.23);
+    box-shadow: inset 3px 0 #ffe08a;
+}
+
+.menu-icon {
+    font-size: 19px;
+    width: 23px;
+    text-align: center;
+}
+
+.sidebar-bottom {
+    margin-top: auto;
+    border-top: 1px solid rgba(255,255,255,0.2);
+    padding-top: 20px;
+}
+
+/* MAIN */
+
+.main {
+    margin-left: 255px;
+    width: calc(100% - 255px);
+    padding: 35px 4%;
+}
+
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.topbar h2 {
+    color: #4236a5;
+    font-size: 25px;
+}
+
+.topbar p {
+    color: #888;
+    font-size: 13px;
+    margin-top: 5px;
+}
+
+.user-badge {
+    background: white;
+    padding: 11px 17px;
+    border-radius: 30px;
+    box-shadow: 0 4px 15px rgba(50,40,100,0.07);
+    font-size: 13px;
+    font-weight: 600;
+}
+
+/* WELCOME */
+
+.welcome {
+    background: linear-gradient(120deg, #667eea, #764ba2);
+    color: white;
+    padding: 38px;
+    border-radius: 22px;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 32px;
+    box-shadow: 0 12px 30px rgba(102,126,234,0.25);
+}
+
+.welcome::after {
+    content: "✦";
+    position: absolute;
+    font-size: 190px;
+    right: 45px;
+    top: -50px;
+    opacity: 0.13;
+}
+
+.welcome small {
+    letter-spacing: 2px;
+    font-size: 11px;
+}
+
+.welcome h1 {
+    font-size: 30px;
+    margin: 14px 0;
+}
+
+.welcome p {
+    font-size: 14px;
+    line-height: 1.8;
+    opacity: 0.92;
+    max-width: 550px;
+}
+
+/* SECTION */
+
+.section-heading {
+    margin: 30px 0 18px;
+}
+
+.section-heading h2 {
+    color: #4236a5;
+    font-size: 21px;
+}
+
+.section-heading p {
+    color: #888;
+    font-size: 13px;
+    margin-top: 5px;
+}
+
+/* OVERVIEW */
+
+.overview {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+}
+
+.overview-card {
+    background: white;
+    padding: 21px;
+    border-radius: 16px;
+    box-shadow: 0 5px 20px rgba(50,40,100,0.05);
+    border: 1px solid #eeeaff;
+}
+
+.overview-icon {
+    font-size: 25px;
+    margin-bottom: 10px;
+}
+
+.overview-card h3 {
+    color: #5144b5;
+    font-size: 15px;
+    margin-bottom: 7px;
+}
+
+.overview-card p {
+    color: #888;
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+/* FEATURE CARDS */
+
+.cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.card {
+    background: white;
+    border: 1px solid #ece9ff;
+    padding: 25px;
+    border-radius: 18px;
+    min-height: 220px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 5px 20px rgba(50,40,100,0.05);
+    transition: 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-7px);
+    box-shadow: 0 14px 30px rgba(102,126,234,0.16);
+    border-color: #b9b1f5;
+}
+
+.card-icon {
+    width: 50px;
+    height: 50px;
+    background: #f0edff;
+    border-radius: 14px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 23px;
+    margin-bottom: 17px;
+}
+
+.card h3 {
+    color: #5144b5;
+    font-size: 16px;
+    margin-bottom: 9px;
+}
+
+.card p {
+    color: #858585;
+    font-size: 13px;
+    line-height: 1.7;
+    margin-bottom: 20px;
+    flex-grow: 1;
+}
+
+.card a {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    text-decoration: none;
+    text-align: center;
+    padding: 11px;
+    border-radius: 9px;
+    font-size: 13px;
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+.card a:hover {
+    opacity: 0.88;
+    box-shadow: 0 5px 15px rgba(102,126,234,0.3);
+}
+
+/* FOOTER */
+
+.footer {
+    text-align: center;
+    color: #999;
+    font-size: 12px;
+    padding: 30px 0 10px;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 1000px) {
+    .cards {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 700px) {
+    .sidebar {
+        width: 75px;
+        padding: 25px 10px;
+    }
+
+    .brand {
+        font-size: 18px;
+        padding: 0;
+        text-align: center;
+    }
+
+    .brand span,
+    .menu-title,
+    .sidebar a span:not(.menu-icon) {
+        display: none;
+    }
+
+    .sidebar a {
+        justify-content: center;
+        padding: 14px 5px;
+    }
+
+    .main {
+        margin-left: 75px;
+        width: calc(100% - 75px);
+        padding: 22px 15px;
+    }
+
+    .overview,
+    .cards {
+        grid-template-columns: 1fr;
+    }
+
+    .welcome {
+        padding: 25px 20px;
+    }
+
+    .welcome h1 {
+        font-size: 24px;
+    }
+
+    .welcome::after {
+        right: 5px;
+        font-size: 100px;
+    }
+
+    .topbar h2 {
+        font-size: 19px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="layout">
+
+    <!-- LEFT SIDEBAR -->
+
+    <aside class="sidebar">
+
+        <div class="brand">Job<span>Portal</span></div>
+
+        <div class="menu-title">EMPLOYER MENU</div>
+
+        <a href="/employer-dashboard/" class="active">
+            <span class="menu-icon">▦</span>
+            <span>Dashboard</span>
+        </a>
+
+        <a href="/create-job/">
+            <span class="menu-icon">➕</span>
+            <span>Create Job</span>
+        </a>
+
+        <a href="/manage-jobs/">
+            <span class="menu-icon">💼</span>
+            <span>Manage Jobs</span>
+        </a>
+
+        <a href="/employer-applicants/">
+            <span class="menu-icon">👥</span>
+            <span>View Applicants</span>
+        </a>
+
+        <div class="menu-title" style="margin-top:25px;">CANDIDATE TOOLS</div>
+
+        <a href="/employer-applicants/">
+            <span class="menu-icon">📄</span>
+            <span>Review Resumes</span>
+        </a>
+
+        <a href="/employer-applicants/">
+            <span class="menu-icon">🎯</span>
+            <span>Filter Applicants</span>
+        </a>
+
+        <div class="sidebar-bottom">
+            <a href="/logout/">
+                <span class="menu-icon">↪</span>
+                <span>Logout</span>
+            </a>
+        </div>
+
+    </aside>
+
+    <!-- MAIN CONTENT -->
+
+    <main class="main">
+
+        <div class="topbar">
+            <div>
+                <h2>Employer Dashboard</h2>
+                <p>Manage your recruitment activities in one place.</p>
+            </div>
+
+            <div class="user-badge">💼 Employer Account</div>
+        </div>
+
+        <section class="welcome">
+            <small>WELCOME TO YOUR EMPLOYER WORKSPACE</small>
+            <h1>Welcome, Employer! 👋</h1>
+            <p>
+                Find talented candidates, publish exciting opportunities
+                and build your dream team with JobPortal.
+                Your next great hire starts here.
+            </p>
+        </section>
+
+        <div class="section-heading">
+            <h2>Your Recruitment Workspace</h2>
+            <p>Quick access to your important recruitment activities.</p>
+        </div>
+
+        <section class="overview">
+
+            <div class="overview-card">
+                <div class="overview-icon">➕</div>
+                <h3>Post Opportunities</h3>
+                <p>Create new vacancies and reach potential candidates.</p>
+            </div>
+
+            <div class="overview-card">
+                <div class="overview-icon">👥</div>
+                <h3>Discover Talent</h3>
+                <p>Review applications and explore candidate profiles.</p>
+            </div>
+
+            <div class="overview-card">
+                <div class="overview-icon">🎯</div>
+                <h3>Smart Recruitment</h3>
+                <p>Find candidates with the skills your company needs.</p>
+            </div>
+
+        </section>
+
+        <div class="section-heading">
+            <h2>Manage Your Recruitment ✨</h2>
+            <p>Everything you need to manage your hiring process.</p>
+        </div>
+
+        <section class="cards">
+
+            <div class="card">
+                <div class="card-icon">➕</div>
+                <h3>Create Job Vacancy</h3>
+                <p>Publish new job opportunities and attract talented candidates.</p>
+                <a href="/create-job/">Create Job →</a>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">💼</div>
+                <h3>Manage Jobs</h3>
+                <p>View, edit and manage your published job vacancies.</p>
+                <a href="/manage-jobs/">Manage Jobs →</a>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">👥</div>
+                <h3>View Applicants</h3>
+                <p>Explore candidates who have applied for your vacancies.</p>
+                <a href="/employer-applicants/">View Applicants →</a>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">📄</div>
+                <h3>Review Resumes</h3>
+                <p>Access candidate applications and review their resume details.</p>
+                <a href="/employer-applicants/">Review Resumes →</a>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">🎯</div>
+                <h3>Filter Applicants</h3>
+                <p>Find suitable candidates based on their relevant skills.</p>
+                <a href="/employer-applicants/">Filter Applicants →</a>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">📊</div>
+                <h3>Application Management</h3>
+                <p>Access candidate applications and manage your recruitment workflow.</p>
+                <a href="/application-management/">Manage Applications →</a>
+            </div>
+
+        </section>
+
+        <div class="footer">
+            © 2026 JobPortal | Building Better Teams Together 💜
+        </div>
+
+    </main>
+
+</div>
+
+</body>
+</html>

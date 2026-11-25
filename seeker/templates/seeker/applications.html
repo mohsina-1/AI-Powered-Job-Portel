@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Applications - Job Portal</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            margin: 0;
+            padding: 30px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #5b4baf;
+        }
+
+        .application {
+            background: #f3f0ff;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 10px;
+        }
+
+        .status {
+            color: #5b4baf;
+            font-weight: bold;
+        }
+
+        a {
+            color: #5b4baf;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>My Applications</h1>
+
+    {% for application in applications %}
+
+<form method="POST" action="{% url 'delete_application' application.id %}">
+    {% csrf_token %}
+    <button type="submit"
+            onclick="return confirm('Are you sure you want to delete this application?')">
+        Delete Application
+    </button>
+</form>
+        <div class="application">
+
+            <h2>{{ application.job.title }}</h2>
+
+            <p>
+                <strong>Company:</strong>
+                {{ application.job.company }}
+            </p>
+
+            <p>
+                <strong>Location:</strong>
+                {{ application.job.location }}
+            </p>
+
+            <p>
+                <strong>Applied Date:</strong>
+                {{ application.applied_at|date:"d-m-Y" }}
+            </p>
+
+            <p class="status">
+                Status: {{ application.status }}
+            </p>
+
+        </div>
+
+    {% empty %}
+
+        <p>You have not applied for any jobs yet.</p>
+
+    {% endfor %}
+
+    <a href="/dashboard/">← Back to Dashboard</a>
+
+</div>
+
+</body>
+</html>
